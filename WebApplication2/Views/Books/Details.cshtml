@@ -1,0 +1,97 @@
+﻿@* @model WebApplication2.Models.Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Summary)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Summary)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author.FullName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+ *@
+<body style="background-color:lightblue">
+    @model WebApplication2.Models.Book
+    @{
+        ViewData["Title"] = "Details";
+
+    }
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Book Image -->
+            <div class="col-md-4">
+                <div class="position-relative">
+                    @*  //Image ////////////////////////////////////////////////////////////////////////////*@
+                    <img src="@Model.BookPicture" alt="Library Image" , style="width:200px;display: block; margin: auto;">
+
+                </div>
+            </div>
+
+            <!-- Book Details -->
+            <div class="col-md-8"> 
+                <h2 class="fw-bold">@Model.Title</h2>
+
+                <p><strong>Автор:</strong> @Model.Author.FullName</p>
+
+                <!-- Book Description -->
+                <div class="mt-4">
+                    <p><strong>Резюме:</strong> @Model.Summary</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 border rounded p-3 shadow-sm bg-light" style="background-color:aliceblue">
+        <h4 >Ревюта</h4>
+
+        @if (Model.Reviews.Count != 0)
+        {
+            @foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedOn))
+            {
+                <div class="border p-3 mb-3 rounded shadow-sm" style="background-color:aliceblue">
+                    <p><strong>@review.UserId</strong> - @review.CreatedOn.ToString("dd.MM.yyyy")</p>
+                    <p>@review.Text</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-black">Все още няма ревюта на тази книга.</p>
+        }
+    </div>
+</body>
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

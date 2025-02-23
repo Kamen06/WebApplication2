@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+                    @model IEnumerable<WebApplication2.Models.Author>
+
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<h1 class="mb-4">Authors</h1>
+
+<body style="background-color: lightblue">
+    <p>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        }
+    </p>
+
+    <!-- ✅ Authors Grid Container -->
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <!-- ✅ Author Profile Picture -->
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <img src="@item.ProfilePicture" class="card-img-top img-fluid" alt="@item.FullName" style="height: 250px; object-fit: cover;">
+                    </a>
+
+                    <div class="card-body">
+                        <!-- ✅ Author Name -->
+                        <h5 class="card-title text-truncate">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="text-dark text-decoration-none">@item.FullName</a>
+                        </h5>
+
+                        <!-- ✅ Biography Snippet -->
+                        <p class="card-text text-muted small">
+                            @(item.Biography.Length > 20 ? item.Biography.Substring(0, 20) + "..." : item.Biography)
+                        </p>
+
+                        <!-- ✅ Deceased Status -->
+                        <p class="card-text small @(item.Deceased ? "text-danger" : "text-success")">
+                            <strong>Status:</strong> @(item.Deceased ? "Deceased" : "Alive")
+                        </p>
+
+                        <!-- ✅ Action Buttons -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            }
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">View</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>

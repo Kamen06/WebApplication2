@@ -1,0 +1,62 @@
+﻿@model WebApplication2.Models.Author
+
+@{
+    ViewData["Title"] = "Details";
+}
+<body style="background-color:lightblue">
+<div class="container mt-5">
+    <div class="row">
+        <!-- Author Image -->
+        <div class="col-md-4">
+            <div class="position-relative">
+                @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+                {
+                    <img src="@Model.ProfilePicture" class="img-fluid rounded shadow" alt="Profile Picture" style="width: 300px; display: block; margin: auto;">
+                }
+                else
+                {
+                    <p class="text-muted text-center">No profile picture available</p>
+                }
+            </div>
+        </div>
+
+        <!-- Author Details -->
+        <div class="col-md-8">
+            <h2 class="fw-bold">@Model.FullName</h2>
+
+            <p><strong>Deceased:</strong> @(Model.Deceased ? "Yes" : "No")</p>
+
+            <!-- Author Biography -->
+            <div class="mt-4">
+                <p><strong>Biography:</strong> @Model.Biography</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section for Books Written by the Author -->
+    <div class="mt-5">
+    <h4>Books by @Model.FullName</h4>
+
+    @if (Model.Books != null && Model.Books.Any())
+    {
+        @foreach (var book in Model.Books)
+        {
+                <div class="border p-3 mb-3 rounded shadow-sm" style="background-color:aliceblue">
+                <p><strong>Title:</strong> <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Title</a></p>
+                <p><strong>Genre:</strong> @book.Genre</p>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">No books found for this author.</p>
+    }
+</div>
+
+<!-- Edit and Back Links -->
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+</body>

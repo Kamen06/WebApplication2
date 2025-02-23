@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+    
+<body style="background-color:lightblue">
+
+    <div class="container" >
+        <h2>Добре дошли в нашата онлайн библиотека 📚</h2>
+        <div style="display: flex; justify-content: center; gap: 100px;">
+            <img src="~/Images/AIkid.jpg" alt="Изображение на библиотека" style="width:250px;height:250px">
+            <img src="~/Images/АнимКниги.jpg" alt="Изображение на библиотека" style="width:250px;height:250px">
+            <img src="~/Images/Vazov.jpg" alt="Изображение на библиотека" style="width:250px;height:250px">
+        </div>
+        <p class="mt-3">
+            Разгледайте огромна колекция от книги, прочетете рецензии и намерете следващата си любима книга.
+            Нашата онлайн библиотека събира читатели и автори, за да споделят знания и опит.
+        </p>
+        <p>
+            📖 <strong>Хиляди книги:</strong> Намерете книги от различни жанрове и автори.<br>
+            ⭐ <strong>Рецензии:</strong> Четете и пишете рецензии за книги.<br>
+            👩‍🏫 <strong>Информация за автори:</strong> Открийте нови автори и техните произведения.
+        </p>
+        </p>
+        <a class="btn btn-primary text-white" asp-area="" asp-controller="Books" asp-action="Index">Explore Books</a>
+        <br />
+        <br />
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a class="btn btn-primary text-white" asp-area="" asp-controller="Reviews" asp-action="Create">Create New Review</a>
+        }
+        
+        <p>
+            • Създайте акаунт или влезте в своя яко вече имате такъв, за да достъпите повече опции!
+        </p>
+    </div>
+
+</body>
